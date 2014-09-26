@@ -12,8 +12,11 @@ FROM debian:wheezy
 
 # Install wget
 RUN apt-get update \
-	&& apt-get install -y wget \
+	&& apt-get install -y wget curl \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.1/gosu' \
+	&& chmod +x /usr/local/bin/gosu
 
 # Install RabbitMQ
 RUN \
@@ -37,7 +40,7 @@ VOLUME ["/data/log", "/data/mnesia"]
 WORKDIR /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose ports.
 EXPOSE 5672
