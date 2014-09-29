@@ -7,8 +7,7 @@
 # Pull base image.
 FROM debian:wheezy
 
-# Add files.
-#ADD bin/rabbitmq-start /usr/local/bin/
+RUN groupadd -r rabbitmq && useradd -r -g rabbitmq rabbitmq
 
 # Install wget
 RUN apt-get update \
@@ -27,11 +26,6 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rabbitmq-plugins enable rabbitmq_management && \
   echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
-#  chmod +x /usr/local/bin/rabbitmq-start
-
-# Define environment variables.
-#ENV RABBITMQ_LOG_BASE /data/log
-#ENV RABBITMQ_MNESIA_BASE /data/mnesia
 
 # Define mount points.
 VOLUME ["/data/log", "/data/mnesia"]
@@ -40,7 +34,7 @@ VOLUME ["/data/log", "/data/mnesia"]
 WORKDIR /data
 
 COPY docker-entrypoint.sh /entrypoint.sh
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose ports.
 EXPOSE 5672
