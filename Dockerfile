@@ -34,7 +34,7 @@ VOLUME ["/data/rabbitmq/log", "/data/rabbitmq/mnesia"]
 WORKDIR /data/rabbitmq
 
 COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose ports.
 EXPOSE 5672
