@@ -27,6 +27,10 @@ RUN \
   rabbitmq-plugins enable rabbitmq_management && \
   echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
 
+# Define environment variables.
+ENV RABBITMQ_LOG_BASE /data/rabbitmq/log
+ENV RABBITMQ_MNESIA_BASE /data/rabbitmq/mnesia
+
 # Define mount points.
 VOLUME ["/data/rabbitmq/log", "/data/rabbitmq/mnesia"]
 
@@ -40,4 +44,4 @@ COPY docker-entrypoint.sh /entrypoint.sh
 EXPOSE 5672
 EXPOSE 15672
 
-CMD ["rabbitmq-server"]
+CMD ["rabbitmq-server", "-detached"]
