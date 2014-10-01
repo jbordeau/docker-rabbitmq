@@ -2,8 +2,7 @@
 set -e
 
 if [ "$1" = 'rabbitmq' ]; then
-	chown -R rabbitmq /data/log
-	chown -R rabbitmq /data/mnesia
+	chown -R rabbitmq /data/rabbitmq
 	exec gosu rabbitmq "$@"
 fi
 

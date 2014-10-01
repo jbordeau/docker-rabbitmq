@@ -28,10 +28,10 @@ RUN \
   echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
 
 # Define mount points.
-VOLUME ["/data/log", "/data/mnesia"]
+VOLUME ["/data/rabbitmq/log", "/data/rabbitmq/mnesia"]
 
 # Define working directory.
-WORKDIR /data
+WORKDIR /data/rabbitmq
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
