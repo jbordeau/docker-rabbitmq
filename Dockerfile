@@ -7,7 +7,7 @@
 # Pull base image.
 FROM debian:wheezy
 
-RUN groupadd -r rabbitmq && useradd -r -g rabbitmq rabbitmq
+#RUN groupadd -r rabbitmq && useradd -r -g rabbitmq rabbitmq
 
 # Install wget
 RUN apt-get update \
