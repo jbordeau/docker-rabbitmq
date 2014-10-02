@@ -44,4 +44,4 @@ COPY docker-entrypoint.sh /entrypoint.sh
 EXPOSE 5672
 EXPOSE 15672
 
-CMD ["rabbitmq-server", "-detached"]
+CMD ["rabbitmq-server"]
