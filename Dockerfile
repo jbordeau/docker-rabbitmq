@@ -24,8 +24,7 @@ RUN \
 
 # rabbitmq.config
 RUN \
-	echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config && \
-	echo "[{rabbit, [{cluster_partition_handling,autoheal}]}]." > /etc/rabbitmq/rabbitmq.config
+	echo "[{rabbit, [{loopback_users, []},{cluster_partition_handling,autoheal},{default_user, <<\"$USER\">>},{default_pass, <<\"$PASS\">>}]}]." > /etc/rabbitmq/rabbitmq.config
 
 # Define environment variables.
 ENV RABBITMQ_LOG_BASE /data/log
