@@ -7,15 +7,11 @@
 # Pull base image.
 FROM debian:wheezy
 
-#RUN groupadd -r rabbitmq && useradd -r -g rabbitmq rabbitmq
-
 # Install wget
-RUN apt-get update \
-	&& apt-get install -y wget curl \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.1/gosu' \
-	&& chmod +x /usr/local/bin/gosu
+RUN \
+	apt-get update && \
+	apt-get install -y wget curl pwgen && \
+	rm -rf /var/lib/apt/lists/*
 
 # Install RabbitMQ
 RUN \
@@ -24,24 +20,33 @@ RUN \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y rabbitmq-server && \
   rm -rf /var/lib/apt/lists/* && \
-  rabbitmq-plugins enable rabbitmq_management && \
-  echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
+  rabbitmq-plugins enable rabbitmq_management 
+
+# rabbitmq.config
+RUN \
+	echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config && \
+	echo "[{rabbit, [{cluster_partition_handling,autoheal}]}]." > /etc/rabbitmq/rabbitmq.config
 
 # Define environment variables.
-ENV RABBITMQ_LOG_BASE /data/rabbitmq/log
-ENV RABBITMQ_MNESIA_BASE /data/rabbitmq/mnesia
+RUN mkdir -p /data/log /data/mnesia && chown -R rabbitmq:rabbitmq /data
+ENV RABBITMQ_LOG_BASE /data/log
+ENV RABBITMQ_MNESIA_BASE /data/mnesia
 
 # Define mount points.
-VOLUME ["/data/rabbitmq/log", "/data/rabbitmq/mnesia"]
+VOLUME ["/data", "/etc/rabbitmq"]
 
 # Define working directory.
-WORKDIR /data/rabbitmq
+WORKDIR /data
+
+# Add scripts
+ADD set_rabbitmq_password.sh /set_rabbitmq_password.sh
 
 COPY docker-entrypoint.sh /entrypoint.sh
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose ports.
 EXPOSE 5672
 EXPOSE 15672
+EXPOSE 25672
 
 CMD ["rabbitmq-server"]

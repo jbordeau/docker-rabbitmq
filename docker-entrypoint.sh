@@ -1,10 +1,8 @@
 #!/bin/bash
 set -e
 
-if [ "$1" = 'rabbitmq-server' ]; then
-	chown -R rabbitmq /data/rabbitmq
-	chown -R rabbitmq /var/lib/rabbitmq
-	exec gosu rabbitmq "$@"
+if [ ! -f /.rabbitmq_password_set ]; then
+	/set_rabbitmq_password.sh
 fi
 
 exec "$@"
