@@ -28,12 +28,12 @@ RUN \
 	echo "[{rabbit, [{cluster_partition_handling,autoheal}]}]." > /etc/rabbitmq/rabbitmq.config
 
 # Define environment variables.
-RUN mkdir -p /data/log /data/mnesia && chown -R rabbitmq:rabbitmq /data
+RUN mkdir -p /data/log /data/mnesia 
 ENV RABBITMQ_LOG_BASE /data/log
 ENV RABBITMQ_MNESIA_BASE /data/mnesia
 
 # Define mount points.
-VOLUME ["/data", "/etc/rabbitmq"]
+VOLUME ["/data/log", "/data/mnesia", "/etc/rabbitmq"]
 
 # Define working directory.
 WORKDIR /data
