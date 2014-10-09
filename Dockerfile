@@ -20,24 +20,22 @@ RUN \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y rabbitmq-server && \
   rm -rf /var/lib/apt/lists/* && \
-  rabbitmq-plugins enable rabbitmq_management 
-
-# rabbitmq.config
-RUN \
-	echo "[{rabbit, [{loopback_users, []},{cluster_partition_handling,autoheal},{default_user, <<\"$USER\">>},{default_pass, <<\"$PASS\">>}]}]." > /etc/rabbitmq/rabbitmq.config
+  rabbitmq-plugins enable rabbitmq_management
 
 # Define environment variables.
 ENV RABBITMQ_LOG_BASE /data/log
 ENV RABBITMQ_MNESIA_BASE /data/mnesia
 
 # Define mount points.
-VOLUME ["/data", "/etc/rabbitmq"]
+VOLUME ["/data"]
 
 # Define working directory.
 WORKDIR /data
 
 # Add scripts
-ADD set_rabbitmq_password.sh /set_rabbitmq_password.sh
+COPY set_rabbitmq_password.sh /set_rabbitmq_password.sh
+# Config
+COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
