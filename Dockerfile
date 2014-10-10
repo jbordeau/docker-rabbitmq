@@ -34,6 +34,7 @@ WORKDIR /data
 
 # Add scripts
 COPY set_rabbitmq_password.sh /set_rabbitmq_password.sh
+COPY set_rabbitmq_erlang_cookie.sh /set_rabbitmq_erlang_cookie.sh
 # Config
 COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 
