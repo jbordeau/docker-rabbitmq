@@ -34,7 +34,7 @@ WORKDIR /data
 
 # Add scripts
 COPY set_rabbitmq_password.sh /set_rabbitmq_password.sh
-COPY set_rabbitmq_erlang_cookie.sh /set_rabbitmq_erlang_cookie.sh
+COPY set_rabbitmq_cluster.sh /set_rabbitmq_cluster.sh
 # Config
 COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 
@@ -45,5 +45,6 @@ ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 5672
 EXPOSE 15672
 EXPOSE 25672
+EXPOSE 4369
 
 CMD ["rabbitmq-server"]
