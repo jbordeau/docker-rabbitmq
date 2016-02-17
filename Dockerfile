@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM debian:wheezy
+FROM debian:jessie
 
 # Install wget
 RUN \
@@ -20,7 +20,8 @@ RUN \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y rabbitmq-server && \
   rm -rf /var/lib/apt/lists/* && \
-  rabbitmq-plugins enable rabbitmq_management
+  rabbitmq-plugins enable --offline rabbitmq_management \
+  rabbitmq-plugins enable --offline rabbitmq_shovel rabbitmq_shovel_management
 
 # Define environment variables.
 ENV RABBITMQ_LOG_BASE /data/log
