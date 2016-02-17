@@ -20,7 +20,7 @@ RUN \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y rabbitmq-server && \
   rm -rf /var/lib/apt/lists/* && \
-  rabbitmq-plugins enable --offline rabbitmq_management \
+  rabbitmq-plugins enable --offline rabbitmq_management && \
   rabbitmq-plugins enable --offline rabbitmq_shovel rabbitmq_shovel_management
 
 # Define environment variables.
